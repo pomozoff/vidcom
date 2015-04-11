@@ -21,3 +21,7 @@ HEADERS  += mainwindow.h \
             videocontainer.h
 
 FORMS    += mainwindow.ui
+
+INCLUDEPATH += $$PWD/../ffmpeg/include
+
+LIBS        += -L$$PWD/../ffmpeg/lib -lstdc++ -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
