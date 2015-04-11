@@ -14,8 +14,10 @@ TEMPLATE  = app
 
 
 SOURCES  += main.cpp\
-            mainwindow.cpp
+            mainwindow.cpp \
+            videocontainer.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+            videocontainer.h
 
 FORMS    += mainwindow.ui
