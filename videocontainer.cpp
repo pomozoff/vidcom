@@ -10,10 +10,10 @@ VideoContainer::VideoContainer(const char* filePath)
 {
 }
 VideoContainer::~VideoContainer() {
-	freeConrext();
+	freeContext();
 }
 
-void VideoContainer::freeConrext(void) {
+void VideoContainer::freeContext(void) {
 	if (_context) {
 		avformat_close_input(&_context);
 		_context = NULL;
@@ -35,7 +35,7 @@ AVFormatContext* VideoContainer::createContext(void) const {
 }
 int VideoContainer::indexOfFirstVideoStream(void) {
 	if (avformat_find_stream_info(_context, NULL) < 0) {
-		freeConrext();
+		freeContext();
 		std::stringstream errorTextStream;
 		errorTextStream << "Не могу найти медиа-потоки в файле: " << _filePath;
 		throw std::logic_error(errorTextStream.str());
@@ -50,7 +50,7 @@ int VideoContainer::indexOfFirstVideoStream(void) {
 	}
 
 	if (indexOfVideoStream < 0) {
-		freeConrext();
+		freeContext();
 		std::stringstream errorTextStream;
 		errorTextStream << "Не могу найти видео-поток в файле: " << _filePath;
 		throw std::logic_error(errorTextStream.str());
