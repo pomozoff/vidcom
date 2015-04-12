@@ -5,7 +5,7 @@
 
 VideoContainer::VideoContainer(const char* filePath)
 	: _filePath(filePath)
-	, _context(createContext(filePath))
+	, _context(createContext())
 	, _indexOfVideoStream(indexOfFirstVideoStream())
 {
 }
@@ -19,16 +19,16 @@ void VideoContainer::freeConrext(void) {
 		_context = NULL;
 	}
 }
-AVFormatContext* VideoContainer::createContext(const char* filePath) const {
+AVFormatContext* VideoContainer::createContext(void) const {
 	av_log_set_level(AV_LOG_DEBUG);
 	av_register_all();
 	avdevice_register_all();
 	avcodec_register_all();
 
 	AVFormatContext* context = avformat_alloc_context();
-	if (avformat_open_input(&context, filePath, NULL, NULL) != 0) {
+	if (avformat_open_input(&context, _filePath, NULL, NULL) != 0) {
 		std::stringstream errorTextStream;
-		errorTextStream << "Не могу открыть файл: " << filePath;
+		errorTextStream << "Не могу открыть файл: " << _filePath;
 		throw std::logic_error(errorTextStream.str());
 	}
 	return context;

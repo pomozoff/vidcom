@@ -24,7 +24,7 @@ class VideoContainer {
 	AVFormatContext* _context = NULL;
 	const int _indexOfVideoStream = -1;
 
-	AVFormatContext* createContext(const char* filePath) const;
+	AVFormatContext* createContext(void) const;
 	int indexOfFirstVideoStream(void);
 	void freeConrext(void);
 };
