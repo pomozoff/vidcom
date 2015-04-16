@@ -29,7 +29,7 @@ AVFormatContext* VideoContainer::createContext(void) const {
 	if (avformat_open_input(&context, _filePath, NULL, NULL) != 0) {
 		std::stringstream errorTextStream;
 		errorTextStream << "Не могу открыть файл: " << _filePath;
-		throw std::logic_error(errorTextStream.str());
+		throw std::runtime_error(errorTextStream.str());
 	}
 	return context;
 }
@@ -38,7 +38,7 @@ int VideoContainer::indexOfFirstVideoStream(void) {
 		freeContext();
 		std::stringstream errorTextStream;
 		errorTextStream << "Не могу найти медиа-потоки в файле: " << _filePath;
-		throw std::logic_error(errorTextStream.str());
+		throw std::runtime_error(errorTextStream.str());
 	}
 
 	int indexOfVideoStream = -1;
@@ -53,7 +53,7 @@ int VideoContainer::indexOfFirstVideoStream(void) {
 		freeContext();
 		std::stringstream errorTextStream;
 		errorTextStream << "Не могу найти видео-поток в файле: " << _filePath;
-		throw std::logic_error(errorTextStream.str());
+		throw std::runtime_error(errorTextStream.str());
 	}
 
 	av_dump_format(_context, 0, _filePath, 0);
@@ -61,4 +61,14 @@ int VideoContainer::indexOfFirstVideoStream(void) {
 
 	//auto codecContext = _context->streams[indexOfVideoStream]->codec;
 	return indexOfVideoStream;
+}
+
+fractionalSecond VideoContainer::startTime(void) const {
+	return _context->start_time;
+}
+fractionalSecond VideoContainer::duration(void) const {
+	return _context->duration;
+}
+int64_t VideoContainer::realSeconds(const fractionalSecond value) const {
+	return value / AV_TIME_BASE;
 }

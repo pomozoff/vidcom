@@ -184,6 +184,16 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="logText">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>407</y>
+      <width>981</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

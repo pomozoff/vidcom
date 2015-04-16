@@ -14,6 +14,8 @@ struct AVFormatContext;
 class VideoContainer;
 using VideoContainerPtr = std::shared_ptr<VideoContainer>;
 
+using fractionalSecond = int64_t;
+
 class VideoContainer {
   public:
 	VideoContainer(const char* filePath);
@@ -27,6 +29,10 @@ class VideoContainer {
 	AVFormatContext* createContext(void) const;
 	int indexOfFirstVideoStream(void);
 	void freeContext(void);
+
+	fractionalSecond startTime(void) const;
+	fractionalSecond duration(void) const;
+	int64_t realSeconds(const fractionalSecond value) const;
 };
 
 #endif // VIDEOCONTAINER_H
