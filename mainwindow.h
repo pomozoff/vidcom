@@ -10,9 +10,6 @@ namespace Ui {
 class MainWindow;
 }
 
-using FutureVideoContainerPtr = std::shared_ptr<QFuture<VideoContainerPtr>>;
-using FutureWatcherVideoContainerPtr = std::shared_ptr<QFutureWatcher<VideoContainerPtr>>;
-
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 
@@ -29,7 +26,7 @@ class MainWindow : public QMainWindow {
   private:
 	Ui::MainWindow* _ui;
 
-	FutureWatcherVideoContainerPtr _watcherOriginal;
+	QFutureWatcher<VideoContainerPtr> _watcherVideoContainer;
 
 	VideoContainerPtr _videoOriginal;
 	VideoContainerPtr _videoStream;

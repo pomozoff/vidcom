@@ -44,23 +44,14 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 		}
 		return videoOriginal;
 	};
-
-	qDebug() << "Создаём объект Watcher";
-	_watcherOriginal = std::make_shared<QFutureWatcher<VideoContainerPtr>>();
-
-	qDebug() << "Соединяем Watcher со слотом finishedJob()";
-	connect(_watcherOriginal.get(), SIGNAL(finished()), this, SLOT(finishedJobOriginal()));
-
-	qDebug() << "Создаём объект Future";
-	const FutureVideoContainerPtr future = std::make_shared<QFuture<VideoContainerPtr>>(QtConcurrent::run(lamda));
-
-	qDebug() << "Устанавливаем Future для Watcher'а";
-	_watcherOriginal->setFuture(*future);
+	connect(&_watcherVideoContainer, SIGNAL(finished()), this, SLOT(finishedCreateVideoContainer()));
+	auto future = QtConcurrent::run(lambda);
+	_watcherVideoContainer.setFuture(future);
 }
 
 void MainWindow::finishedJobOriginal(void) {
 	qDebug() << "Объект Future выполнил работу";
-	VideoContainerPtr videoOriginal = _watcherOriginal->future().result();
+	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
 		_ui->statusBar->showMessage("Объект Video Container не создан");
 	}
