@@ -57,3 +57,8 @@ void MainWindow::finishedCreateVideoContainer(void) {
 		_ui->statusBar->showMessage("Объект Video Container не создан");
 	}
 }
+void MainWindow::finishedFindKeyFrames(void) {
+	qDebug() << "Объект Future KeyFramesList выполнил работу";
+	KeyFramesList keyFramesList = _watcherKeyFramesList.future().result();
+	qDebug() << "Количество ключевых кадров: " << keyFramesList.size();
+}

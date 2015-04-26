@@ -22,11 +22,13 @@ class MainWindow : public QMainWindow {
 	void on_originalFileName_editingFinished();
 
 	void finishedCreateVideoContainer(void);
+	void finishedFindKeyFrames(void);
 
   private:
 	Ui::MainWindow* _ui;
 
 	QFutureWatcher<VideoContainerPtr> _watcherVideoContainer;
+	QFutureWatcher<KeyFramesList> _watcherKeyFramesList;
 
 	VideoContainerPtr _videoOriginal;
 	VideoContainerPtr _videoStream;
