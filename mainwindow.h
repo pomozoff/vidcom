@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow {
 	void on_originalSelect_released();
 	void on_originalFileName_editingFinished();
 
-	void finishedJobOriginal(void);
+	void finishedCreateVideoContainer(void);
 
   private:
 	Ui::MainWindow* _ui;

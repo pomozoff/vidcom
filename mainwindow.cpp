@@ -50,7 +50,7 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 	_watcherVideoContainer.setFuture(future);
 }
 
-void MainWindow::finishedJobOriginal(void) {
+void MainWindow::finishedCreateVideoContainer(void) {
 	qDebug() << "Объект Future VideoContainer выполнил работу";
 	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
