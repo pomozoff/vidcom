@@ -10,10 +10,9 @@ extern "C" {
 }
 
 struct AVFormatContext;
-
 class VideoContainer;
-using VideoContainerPtr = std::shared_ptr<VideoContainer>;
 
+using VideoContainerPtr = std::shared_ptr<VideoContainer>;
 using FractionalSecond = int64_t;
 
 class VideoContainer {
