@@ -55,6 +55,13 @@ void MainWindow::finishedCreateVideoContainer(void) {
 	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
 		_ui->statusBar->showMessage("Объект Video Container не создан");
+	} else {
+		auto lambda = [&videoOriginal](void) -> KeyFramesList {
+			return videoOriginal->listOfKeyFrames();
+		};
+		connect(&_watcherKeyFramesList, SIGNAL(finished()), this, SLOT(finishedFindKeyFrames()));
+		auto future = QtConcurrent::run(lambda);
+		_watcherKeyFramesList.setFuture(future);
 	}
 }
 void MainWindow::finishedFindKeyFrames(void) {
