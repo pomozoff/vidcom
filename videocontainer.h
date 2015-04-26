@@ -22,6 +22,8 @@ class VideoContainer {
 	VideoContainer(const char* filePath);
 	~VideoContainer();
 
+	KeyFramesList listOfKeyFrames(void) const;
+
   private:
 	const char* _filePath;
 	AVFormatContext* _context = NULL;

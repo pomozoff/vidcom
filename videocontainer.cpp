@@ -13,6 +13,11 @@ VideoContainer::~VideoContainer() {
 	freeContext();
 }
 
+KeyFramesList VideoContainer::listOfKeyFrames(void) const {
+	auto keyFrames = std::vector<const FractionalSecond>();
+	return keyFrames;
+}
+
 void VideoContainer::freeContext(void) {
 	if (_context) {
 		avformat_close_input(&_context);
