@@ -63,12 +63,12 @@ int VideoContainer::indexOfFirstVideoStream(const char* filePath) {
 	return indexOfVideoStream;
 }
 
-fractionalSecond VideoContainer::startTime(void) const {
+FractionalSecond VideoContainer::startTime(void) const {
 	return _context->start_time;
 }
-fractionalSecond VideoContainer::duration(void) const {
+FractionalSecond VideoContainer::duration(void) const {
 	return _context->duration;
 }
-int64_t VideoContainer::realSeconds(const fractionalSecond value) const {
+int64_t VideoContainer::realSeconds(const FractionalSecond value) const {
 	return value / AV_TIME_BASE;
 }
