@@ -31,13 +31,13 @@ void MainWindow::on_originalFileName_editingFinished() {
 }
 
 void MainWindow::processSelectedFile(const QString& fileName) {
-	auto lamda = [fileName](void) -> VideoContainerPtr {
+	qDebug() << "Обрабатываем файл: " << fileName;
+	auto lambda = [fileName](void) -> VideoContainerPtr {
 		qDebug() << "Создаём объект Video Container";
-		qDebug() << "Обрабатываем файл: " << fileName;
-		VideoContainerPtr videoOriginal = NULL;
 		const auto byteArray = fileName.toUtf8();
 		const char* cFileName = byteArray.constData();
 		qDebug() << "Путь к файлу: " << cFileName;
+		VideoContainerPtr videoOriginal = NULL;
 		try {
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
 		} catch (std::runtime_error error) {
