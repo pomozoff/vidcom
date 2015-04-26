@@ -5,8 +5,8 @@
 
 VideoContainer::VideoContainer(const char* filePath)
 	: _filePath(filePath)
-	, _context(createContext())
-	, _indexOfVideoStream(indexOfFirstVideoStream())
+	, _context(createContext(filePath))
+	, _indexOfVideoStream(indexOfFirstVideoStream(filePath))
 {
 }
 VideoContainer::~VideoContainer() {
@@ -19,25 +19,25 @@ void VideoContainer::freeContext(void) {
 		_context = NULL;
 	}
 }
-AVFormatContext* VideoContainer::createContext(void) const {
+AVFormatContext* VideoContainer::createContext(const char* filePath) const {
 	av_log_set_level(AV_LOG_DEBUG);
 	av_register_all();
 	avdevice_register_all();
 	avcodec_register_all();
 
 	AVFormatContext* context = avformat_alloc_context();
-	if (avformat_open_input(&context, _filePath, NULL, NULL) != 0) {
+	if (avformat_open_input(&context, filePath, NULL, NULL) != 0) {
 		std::stringstream errorTextStream;
-		errorTextStream << "Не могу открыть файл: " << _filePath;
+		errorTextStream << "Не могу открыть файл: " << filePath;
 		throw std::runtime_error(errorTextStream.str());
 	}
 	return context;
 }
-int VideoContainer::indexOfFirstVideoStream(void) {
+int VideoContainer::indexOfFirstVideoStream(const char* filePath) {
 	if (avformat_find_stream_info(_context, NULL) < 0) {
 		freeContext();
 		std::stringstream errorTextStream;
-		errorTextStream << "Не могу найти медиа-потоки в файле: " << _filePath;
+		errorTextStream << "Не могу найти медиа-потоки в файле: " << filePath;
 		throw std::runtime_error(errorTextStream.str());
 	}
 
@@ -52,11 +52,11 @@ int VideoContainer::indexOfFirstVideoStream(void) {
 	if (indexOfVideoStream < 0) {
 		freeContext();
 		std::stringstream errorTextStream;
-		errorTextStream << "Не могу найти видео-поток в файле: " << _filePath;
+		errorTextStream << "Не могу найти видео-поток в файле: " << filePath;
 		throw std::runtime_error(errorTextStream.str());
 	}
 
-	av_dump_format(_context, 0, _filePath, 0);
+	av_dump_format(_context, 0, filePath, 0);
 	qDebug() << "Найдена видео-дорожка с индексом: " << indexOfVideoStream;
 
 	//auto codecContext = _context->streams[indexOfVideoStream]->codec;

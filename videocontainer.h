@@ -26,8 +26,8 @@ class VideoContainer {
 	AVFormatContext* _context = NULL;
 	const int _indexOfVideoStream = -1;
 
-	AVFormatContext* createContext(void) const;
-	int indexOfFirstVideoStream(void);
+	AVFormatContext* createContext(const char* filePath) const;
+	int indexOfFirstVideoStream(const char* filePath);
 	void freeContext(void);
 
 	fractionalSecond startTime(void) const;
