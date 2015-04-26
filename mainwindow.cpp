@@ -35,8 +35,9 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 		qDebug() << "Создаём объект Video Container";
 		qDebug() << "Обрабатываем файл: " << fileName;
 		VideoContainerPtr videoOriginal = NULL;
+		const char* cFileName = fileName.toUtf8().constData();
+		qDebug() << "Путь к файлу: " << cFileName;
 		try {
-			const char* cFileName = fileName.toUtf8().constData();
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
 		} catch (std::runtime_error error) {
 			qDebug() << "Ошибка при создании объекта Video Container: "<< error.what();
