@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 extern "C" {
 #include "libavformat/avformat.h"
@@ -14,6 +15,7 @@ class VideoContainer;
 
 using VideoContainerPtr = std::shared_ptr<VideoContainer>;
 using FractionalSecond = int64_t;
+using KeyFramesList = std::vector<const FractionalSecond>;
 
 class VideoContainer {
   public:
