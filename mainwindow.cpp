@@ -41,7 +41,7 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 		try {
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
 		} catch (std::runtime_error error) {
-			qDebug() << "Ошибка при создании объекта Video Container: "<< error.what();
+			qDebug() << "Ошибка при создании объекта Video Container" << endl << error.what();
 		}
 		return videoOriginal;
 	};
@@ -51,7 +51,7 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 }
 
 void MainWindow::finishedJobOriginal(void) {
-	qDebug() << "Объект Future выполнил работу";
+	qDebug() << "Объект Future VideoContainer выполнил работу";
 	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
 		_ui->statusBar->showMessage("Объект Video Container не создан");
