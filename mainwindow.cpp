@@ -35,7 +35,8 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 		qDebug() << "Создаём объект Video Container";
 		qDebug() << "Обрабатываем файл: " << fileName;
 		VideoContainerPtr videoOriginal = NULL;
-		const char* cFileName = fileName.toUtf8().constData();
+		const auto byteArray = fileName.toUtf8();
+		const char* cFileName = byteArray.constData();
 		qDebug() << "Путь к файлу: " << cFileName;
 		try {
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
