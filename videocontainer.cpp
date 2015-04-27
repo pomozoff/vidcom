@@ -3,6 +3,10 @@
 #include <QDebug>
 #include <sstream>
 
+extern "C" {
+#include "libavcodec/avcodec.h"
+}
+
 VideoContainer::VideoContainer(const char* filePath)
 	: _filePath(filePath)
 	, _context(createContext(filePath))
@@ -14,7 +18,64 @@ VideoContainer::~VideoContainer() {
 }
 
 KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
+	qDebug() << "Чтение файла: " << _filePath.c_str() << ", индекс видеодорожки: " << indexOfVideoStream;
+
+	auto codecContextOriginal = _context->streams[indexOfVideoStream]->codec;
+
+	auto videoCodec = avcodec_find_decoder(codecContextOriginal->codec_id);
+	if (!videoCodec) {
+		std::stringstream errorTextStream;
+		errorTextStream << "Кодек не поддерживается: " << codecContextOriginal->codec_id;
+		throw std::runtime_error(errorTextStream.str());
+	}
+
+	auto codecContext = avcodec_alloc_context3(videoCodec);
+	if (avcodec_copy_context(codecContext, codecContextOriginal) != 0) {
+		std::stringstream errorTextStream;
+		errorTextStream << "Не могу скопировать контекст кодека";
+		throw std::runtime_error(errorTextStream.str());
+	}
+
+	if (avcodec_open2(codecContext, videoCodec, 0) != 0) {
+		std::stringstream errorTextStream;
+		errorTextStream << "Не могу открыть кодек";
+		throw std::runtime_error(errorTextStream.str());
+	}
+	//while (av_seek_frame(_context, indexOfVideoStream, seekTarget, 0) >= 0) {
+
+	AVPacket packet;
+	auto frame = av_frame_alloc();
+
+	auto seekTarget = startTime();
 	auto keyFrames = std::vector<const FractionalSecond>();
+
+	while (av_read_frame(_context, &packet) >= 0) {
+		if (packet.stream_index != indexOfVideoStream) {
+			continue;
+		}
+
+		int gotPicture = 0;
+		auto bytesDecoded = avcodec_decode_video2(codecContext, frame, &gotPicture, &packet);
+		seekTarget = packet.dts;
+
+		if (bytesDecoded < 0 || !gotPicture) {
+			qDebug() << "Ошибка декодирования пакета, время: " << seekTarget;
+			av_frame_unref(frame);
+			av_free_packet(&packet);
+			continue;
+		}
+		qDebug() << "Фрейм успешно декодирован, время: " << seekTarget;
+		av_frame_unref(frame);
+		av_free_packet(&packet);
+		//keyFrames.push_back(seekTarget);
+	}
+	av_frame_free(&frame);
+
+	avcodec_close(codecContext);
+	avcodec_close(codecContextOriginal);
+
+	av_frame_free(&frame);
+
 	return keyFrames;
 }
 int VideoContainer::indexOfFirstVideoStream(void) const {
