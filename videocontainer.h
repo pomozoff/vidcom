@@ -25,7 +25,7 @@ class VideoContainer {
 	KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
 
   private:
-	const char* _filePath;
+	const std::string _filePath;
 	AVFormatContext* _context = NULL;
 	const int _indexOfVideoStream = -1;
 
