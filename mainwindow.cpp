@@ -62,7 +62,13 @@ void MainWindow::finishedCreateVideoContainer(void) {
 	} else {
 		auto lambda = [&videoOriginal](void) -> KeyFramesList {
 			auto indexOfVideoStream = videoOriginal->indexOfFirstVideoStream();
-			return videoOriginal->listOfKeyFrames(indexOfVideoStream);
+			KeyFramesList keyFrames;
+			try {
+				keyFrames = videoOriginal->listOfKeyFrames(indexOfVideoStream);
+			} catch (std::runtime_error error) {
+				qDebug() << "Ошибка чтения фреймов" << endl << error.what();
+			}
+			return keyFrames;
 		};
 		auto future = QtConcurrent::run(lambda);
 		_watcherKeyFramesList.setFuture(future);
