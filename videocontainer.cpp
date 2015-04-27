@@ -67,7 +67,6 @@ int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
 	av_dump_format(_context, 0, filePath, 0);
 	qDebug() << "Найдена видео-дорожка с индексом: " << indexOfVideoStream;
 
-	//auto codecContext = _context->streams[indexOfVideoStream]->codec;
 	return indexOfVideoStream;
 }
 
