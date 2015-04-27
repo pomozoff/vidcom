@@ -23,6 +23,7 @@ class VideoContainer {
 	~VideoContainer();
 
 	KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
+	int indexOfFirstVideoStream(void) const;
 
   private:
 	const std::string _filePath;
@@ -30,7 +31,7 @@ class VideoContainer {
 	const int _indexOfVideoStream = -1;
 
 	AVFormatContext* createContext(const char* filePath) const;
-	int indexOfFirstVideoStream(const char* filePath);
+	int findIndexOfFirstVideoStream(const char* filePath);
 	void freeContext(void);
 
 	FractionalSecond startTime(void) const;

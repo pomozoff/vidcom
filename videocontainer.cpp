@@ -6,7 +6,7 @@
 VideoContainer::VideoContainer(const char* filePath)
 	: _filePath(filePath)
 	, _context(createContext(filePath))
-	, _indexOfVideoStream(indexOfFirstVideoStream(filePath))
+	, _indexOfVideoStream(findIndexOfFirstVideoStream(filePath))
 {
 }
 VideoContainer::~VideoContainer() {
@@ -16,6 +16,9 @@ VideoContainer::~VideoContainer() {
 KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
 	auto keyFrames = std::vector<const FractionalSecond>();
 	return keyFrames;
+}
+int VideoContainer::indexOfFirstVideoStream(void) const {
+	return _indexOfVideoStream;
 }
 
 void VideoContainer::freeContext(void) {
@@ -38,7 +41,7 @@ AVFormatContext* VideoContainer::createContext(const char* filePath) const {
 	}
 	return context;
 }
-int VideoContainer::indexOfFirstVideoStream(const char* filePath) {
+int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
 	if (avformat_find_stream_info(_context, NULL) < 0) {
 		freeContext();
 		std::stringstream errorTextStream;
