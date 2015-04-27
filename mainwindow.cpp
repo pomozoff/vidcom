@@ -35,6 +35,7 @@ void MainWindow::on_originalFileName_editingFinished() {
 
 void MainWindow::processSelectedFile(const QString& fileName) {
 	qDebug() << "Обрабатываем файл: " << fileName;
+	_ui->originalFileName->setEnabled(false);
 	auto lambda = [fileName](void) -> VideoContainerPtr {
 		qDebug() << "Создаём объект Video Container";
 		const auto byteArray = fileName.toUtf8();
@@ -57,6 +58,7 @@ void MainWindow::finishedCreateVideoContainer(void) {
 	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
 		_ui->statusBar->showMessage("Объект Video Container не создан");
+		_ui->originalFileName->setEnabled(true);
 	} else {
 		auto lambda = [&videoOriginal](void) -> KeyFramesList {
 			return videoOriginal->listOfKeyFrames();
@@ -69,4 +71,5 @@ void MainWindow::finishedFindKeyFrames(void) {
 	qDebug() << "Объект Future KeyFramesList выполнил работу";
 	KeyFramesList keyFramesList = _watcherKeyFramesList.future().result();
 	qDebug() << "Количество ключевых кадров: " << keyFramesList.size();
+	_ui->originalFileName->setEnabled(true);
 }
