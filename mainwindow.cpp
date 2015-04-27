@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget* parent)
 	, _ui(new Ui::MainWindow)
 {
 	_ui->setupUi(this);
+
+	connect(&_watcherVideoContainer, SIGNAL(finished()), this, SLOT(finishedCreateVideoContainer()));
+	connect(&_watcherKeyFramesList, SIGNAL(finished()), this, SLOT(finishedFindKeyFrames()));
 }
 
 MainWindow::~MainWindow() {
@@ -45,7 +48,6 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 		}
 		return videoOriginal;
 	};
-	connect(&_watcherVideoContainer, SIGNAL(finished()), this, SLOT(finishedCreateVideoContainer()));
 	auto future = QtConcurrent::run(lambda);
 	_watcherVideoContainer.setFuture(future);
 }
@@ -59,7 +61,6 @@ void MainWindow::finishedCreateVideoContainer(void) {
 		auto lambda = [&videoOriginal](void) -> KeyFramesList {
 			return videoOriginal->listOfKeyFrames();
 		};
-		connect(&_watcherKeyFramesList, SIGNAL(finished()), this, SLOT(finishedFindKeyFrames()));
 		auto future = QtConcurrent::run(lambda);
 		_watcherKeyFramesList.setFuture(future);
 	}
