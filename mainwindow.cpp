@@ -61,7 +61,8 @@ void MainWindow::finishedCreateVideoContainer(void) {
 		_ui->originalFileName->setEnabled(true);
 	} else {
 		auto lambda = [&videoOriginal](void) -> KeyFramesList {
-			return videoOriginal->listOfKeyFrames();
+			auto indexOfVideoStream = videoOriginal->indexOfFirstVideoStream();
+			return videoOriginal->listOfKeyFrames(indexOfVideoStream);
 		};
 		auto future = QtConcurrent::run(lambda);
 		_watcherKeyFramesList.setFuture(future);

@@ -22,7 +22,7 @@ class VideoContainer {
 	VideoContainer(const char* filePath);
 	~VideoContainer();
 
-	KeyFramesList listOfKeyFrames(void) const;
+	KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
 
   private:
 	const char* _filePath;

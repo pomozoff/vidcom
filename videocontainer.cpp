@@ -13,7 +13,7 @@ VideoContainer::~VideoContainer() {
 	freeContext();
 }
 
-KeyFramesList VideoContainer::listOfKeyFrames(void) const {
+KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
 	auto keyFrames = std::vector<const FractionalSecond>();
 	return keyFrames;
 }
