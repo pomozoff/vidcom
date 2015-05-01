@@ -41,33 +41,35 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 		errorTextStream << "Не могу открыть кодек";
 		throw std::runtime_error(errorTextStream.str());
 	}
-	//while (av_seek_frame(_context, indexOfVideoStream, seekTarget, 0) >= 0) {
 
 	AVPacket packet;
-	auto frame = av_frame_alloc();
+	if (av_read_frame(_context, &packet) < 0) {
+		std::stringstream errorTextStream;
+		errorTextStream << "Ошибка чтения первого фрейма";
+		throw std::runtime_error(errorTextStream.str());
+	}
 
-	auto seekTarget = startTime();
+	auto frame = av_frame_alloc();
 	auto keyFrames = std::vector<const FractionalSecond>();
 
-	while (av_read_frame(_context, &packet) >= 0) {
+	while (av_seek_frame(_context, indexOfVideoStream, packet.dts, 0) >= 0) {
 		if (packet.stream_index != indexOfVideoStream) {
 			continue;
 		}
 
 		int gotPicture = 0;
 		auto bytesDecoded = avcodec_decode_video2(codecContext, frame, &gotPicture, &packet);
-		seekTarget = packet.dts;
 
 		if (bytesDecoded < 0 || !gotPicture) {
-			qDebug() << "Ошибка декодирования пакета, время: " << seekTarget;
+			qDebug() << "Ошибка декодирования пакета, время: " << packet.dts;
 			av_frame_unref(frame);
 			av_free_packet(&packet);
 			continue;
 		}
-		qDebug() << "Фрейм успешно декодирован, время: " << seekTarget;
+		qDebug() << "Фрейм успешно декодирован, время: " << packet.dts;
 		av_frame_unref(frame);
 		av_free_packet(&packet);
-		//keyFrames.push_back(seekTarget);
+		//keyFrames.push_back(packet.dts);
 	}
 	av_frame_free(&frame);
 
