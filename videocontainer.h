@@ -15,7 +15,7 @@ class VideoContainer;
 
 using VideoContainerPtr = std::shared_ptr<VideoContainer>;
 using FractionalSecond = int64_t;
-using KeyFramesList = std::vector<const FractionalSecond>;
+using KeyFramesList = std::vector<FractionalSecond>;
 
 class VideoContainer {
   public:

@@ -50,7 +50,7 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 	}
 
 	auto frame = av_frame_alloc();
-	auto keyFrames = std::vector<const FractionalSecond>();
+    auto keyFrames = std::vector<FractionalSecond>();
 
 	while (av_seek_frame(_context, indexOfVideoStream, packet.dts, 0) >= 0) {
 		if (packet.stream_index != indexOfVideoStream) {
