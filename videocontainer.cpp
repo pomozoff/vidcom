@@ -53,8 +53,13 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
     auto keyFrames = std::vector<FractionalSecond>();
 
 	while (av_seek_frame(_context, indexOfVideoStream, packet.dts, 0) >= 0) {
+        if (av_read_frame(_context, &packet) < 0) {
+            qDebug() << "Error packet reading, dts: " << packet.dts;
+            continue;
+        }
 		if (packet.stream_index != indexOfVideoStream) {
-			continue;
+            av_free_packet(&packet);
+            continue;
 		}
 
 		int gotPicture = 0;
