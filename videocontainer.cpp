@@ -76,8 +76,6 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 	avcodec_close(codecContext);
 	avcodec_close(codecContextOriginal);
 
-	av_frame_free(&frame);
-
 	return keyFrames;
 }
 int VideoContainer::indexOfFirstVideoStream(void) const {
