@@ -34,18 +34,18 @@ void MainWindow::on_originalFileName_editingFinished() {
 }
 
 void MainWindow::processSelectedFile(const QString& fileName) {
-	qDebug() << "Обрабатываем файл: " << fileName;
+    qDebug() << "Processing file: " << fileName;
 	_ui->originalFileName->setEnabled(false);
 	auto lambda = [fileName](void) -> VideoContainerPtr {
-		qDebug() << "Создаём объект Video Container";
+        qDebug() << "Creating Video Container ...";
 		const auto byteArray = fileName.toUtf8();
 		const char* cFileName = byteArray.constData();
-		qDebug() << "Путь к файлу: " << cFileName;
+        qDebug() << "File path: " << cFileName;
 		VideoContainerPtr videoOriginal = NULL;
 		try {
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
 		} catch (std::runtime_error error) {
-			qDebug() << "Ошибка при создании объекта Video Container" << endl << error.what();
+            qDebug() << "Failed to create Video Container" << endl << error.what();
 		}
 		return videoOriginal;
 	};
@@ -54,10 +54,10 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 }
 
 void MainWindow::finishedCreateVideoContainer(void) {
-	qDebug() << "Объект Future VideoContainer выполнил работу";
+    qDebug() << "VideoContainer finished his job";
 	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
-		_ui->statusBar->showMessage("Объект Video Container не создан");
+        _ui->statusBar->showMessage("No Video Container created");
 		_ui->originalFileName->setEnabled(true);
 	} else {
 		auto lambda = [&videoOriginal](void) -> KeyFramesList {
@@ -66,7 +66,7 @@ void MainWindow::finishedCreateVideoContainer(void) {
 			try {
 				keyFrames = videoOriginal->listOfKeyFrames(indexOfVideoStream);
 			} catch (std::runtime_error error) {
-				qDebug() << "Ошибка чтения фреймов" << endl << error.what();
+                qDebug() << "Error whilst frames reading" << endl << error.what();
 			}
 			return keyFrames;
 		};
@@ -75,8 +75,8 @@ void MainWindow::finishedCreateVideoContainer(void) {
 	}
 }
 void MainWindow::finishedFindKeyFrames(void) {
-	qDebug() << "Объект Future KeyFramesList выполнил работу";
+    qDebug() << "KeyFramesList finished his job";
 	KeyFramesList keyFramesList = _watcherKeyFramesList.future().result();
-	qDebug() << "Количество ключевых кадров: " << keyFramesList.size();
+    qDebug() << "Keyframes number: " << keyFramesList.size();
 	_ui->originalFileName->setEnabled(true);
 }

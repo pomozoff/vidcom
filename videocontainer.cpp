@@ -18,7 +18,7 @@ VideoContainer::~VideoContainer() {
 }
 
 KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
-	qDebug() << "Чтение файла: " << _filePath.c_str() << ", индекс видеодорожки: " << indexOfVideoStream;
+    qDebug() << "Reading file: " << _filePath.c_str() << ", video stream index: " << indexOfVideoStream;
 
 	auto codecContextOriginal = _context->streams[indexOfVideoStream]->codec;
 
@@ -61,12 +61,12 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 		auto bytesDecoded = avcodec_decode_video2(codecContext, frame, &gotPicture, &packet);
 
 		if (bytesDecoded < 0 || !gotPicture) {
-			qDebug() << "Ошибка декодирования пакета, время: " << packet.dts;
+            qDebug() << "Error packet decoding, dts: " << packet.dts;
 			av_frame_unref(frame);
 			av_free_packet(&packet);
 			continue;
 		}
-		qDebug() << "Фрейм успешно декодирован, время: " << packet.dts;
+        qDebug() << "Frame successfully decoded, dts: " << packet.dts;
 		av_frame_unref(frame);
 		av_free_packet(&packet);
 		//keyFrames.push_back(packet.dts);
@@ -128,7 +128,7 @@ int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
 	}
 
 	av_dump_format(_context, 0, filePath, 0);
-	qDebug() << "Найдена видео-дорожка с индексом: " << indexOfVideoStream;
+    qDebug() << "Video stream found, index: " << indexOfVideoStream;
 
 	return indexOfVideoStream;
 }
