@@ -1,4 +1,4 @@
-#ifndef VIDEOCONTAINER_H
+﻿#ifndef VIDEOCONTAINER_H
 #define VIDEOCONTAINER_H
 
 #include <memory>
