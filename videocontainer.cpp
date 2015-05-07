@@ -43,22 +43,27 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 	}
 
 	AVPacket packet;
+    /*
 	if (av_read_frame(_context, &packet) < 0) {
 		std::stringstream errorTextStream;
 		errorTextStream << "Ошибка чтения первого фрейма";
 		throw std::runtime_error(errorTextStream.str());
 	}
+    */
 
 	auto frame = av_frame_alloc();
     auto keyFrames = std::vector<FractionalSecond>();
 
-	while (av_seek_frame(_context, indexOfVideoStream, packet.dts, 0) >= 0) {
+    //while (av_seek_frame(_context, indexOfVideoStream, packet.dts + 1, 0) >= 0) {
+    while (av_read_frame(_context, &packet) >= 0) {
+        /*
         if (av_read_frame(_context, &packet) < 0) {
             qDebug() << "Error packet reading, dts: " << packet.dts;
             continue;
         }
+        */
 		if (packet.stream_index != indexOfVideoStream) {
-            av_free_packet(&packet);
+            //av_free_packet(&packet);
             continue;
 		}
 
