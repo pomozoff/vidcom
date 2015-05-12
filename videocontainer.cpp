@@ -127,7 +127,6 @@ int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
 			break;
 		}
 	}
-
 	if (indexOfVideoStream < 0) {
 		freeContext();
 		std::stringstream errorTextStream;

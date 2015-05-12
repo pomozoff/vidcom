@@ -16,14 +16,12 @@ class MainWindow : public QMainWindow {
   public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
-
   private slots:
 	void on_originalSelect_released();
 	void on_originalFileName_editingFinished();
 
 	void finishedCreateVideoContainer(void);
 	void finishedFindKeyFrames(void);
-
   private:
 	Ui::MainWindow* _ui;
 
