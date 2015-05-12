@@ -76,8 +76,8 @@ void MainWindow::finishedCreateVideoContainer(void) {
 	}
 }
 void MainWindow::finishedFindKeyFrames(void) {
-	KeyFramesList keyFramesList = _watcherKeyFramesList.future().result();
 	_ui->originalFileName->setEnabled(true);
+	auto keyFramesList = _watcherKeyFramesList.future().result();
 void MainWindow::deleteScene(QGraphicsView* graphicsView) const {
 	auto scene = graphicsView->scene();
 	if (scene) {
