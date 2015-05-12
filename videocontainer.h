@@ -22,7 +22,7 @@ class VideoContainer {
 	VideoContainer(const QString& filePath);
 	~VideoContainer();
 
-	KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
+	const KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
 	int indexOfFirstVideoStream(void) const;
 
   private:

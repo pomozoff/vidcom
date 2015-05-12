@@ -17,7 +17,7 @@ VideoContainer::~VideoContainer() {
 	freeContext();
 }
 
-KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
+const KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
 	auto codecContextOriginal = _context->streams[indexOfVideoStream]->codec;
 
 	auto videoCodec = avcodec_find_decoder(codecContextOriginal->codec_id);
