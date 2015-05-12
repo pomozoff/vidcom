@@ -19,19 +19,19 @@ using KeyFramesList = std::vector<FractionalSecond>;
 
 class VideoContainer {
   public:
-	VideoContainer(const char* filePath);
+	VideoContainer(const QString& filePath);
 	~VideoContainer();
 
 	KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
 	int indexOfFirstVideoStream(void) const;
 
   private:
-	const std::string _filePath;
+	const QString _filePath;
 	AVFormatContext* _context = NULL;
 	const int _indexOfVideoStream = -1;
 
-	AVFormatContext* createContext(const char* filePath) const;
-	int findIndexOfFirstVideoStream(const char* filePath);
+	AVFormatContext* createContext(const QString& filePath) const;
+	int findIndexOfFirstVideoStream(const QString& filePath);
 	void freeContext(void);
 
 	FractionalSecond startTime(void) const;

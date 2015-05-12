@@ -7,7 +7,7 @@ extern "C" {
 #include "libavcodec/avcodec.h"
 }
 
-VideoContainer::VideoContainer(const char* filePath)
+VideoContainer::VideoContainer(const QString& filePath)
 	: _filePath(filePath)
 	, _context(createContext(filePath))
 	, _indexOfVideoStream(findIndexOfFirstVideoStream(filePath))
@@ -22,30 +22,26 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 
 	auto videoCodec = avcodec_find_decoder(codecContextOriginal->codec_id);
 	if (!videoCodec) {
-		std::stringstream errorTextStream;
-		errorTextStream << "Кодек не поддерживается: " << codecContextOriginal->codec_id;
-		throw std::runtime_error(errorTextStream.str());
+		QString errorText = "Кодек не поддерживается: " + (QString)codecContextOriginal->codec_id;
+		throw std::runtime_error(errorText.toStdString());
 	}
 
 	auto codecContext = avcodec_alloc_context3(videoCodec);
 	if (avcodec_copy_context(codecContext, codecContextOriginal) != 0) {
-		std::stringstream errorTextStream;
-		errorTextStream << "Не могу скопировать контекст кодека";
-		throw std::runtime_error(errorTextStream.str());
+		QString errorText = "Не могу скопировать контекст кодека";
+		throw std::runtime_error(errorText.toStdString());
 	}
 
 	if (avcodec_open2(codecContext, videoCodec, 0) != 0) {
-		std::stringstream errorTextStream;
-		errorTextStream << "Не могу открыть кодек";
-		throw std::runtime_error(errorTextStream.str());
+		QString errorText = "Не могу открыть кодек";
+		throw std::runtime_error(errorText.toStdString());
 	}
 
 	AVPacket packet;
     /*
 	if (av_read_frame(_context, &packet) < 0) {
-		std::stringstream errorTextStream;
-		errorTextStream << "Ошибка чтения первого фрейма";
-		throw std::runtime_error(errorTextStream.str());
+		QString errorText = "Ошибка чтения первого фрейма";
+		throw std::runtime_error(errorText.toStdString());
 	}
     */
 
@@ -96,26 +92,24 @@ void VideoContainer::freeContext(void) {
 		_context = NULL;
 	}
 }
-AVFormatContext* VideoContainer::createContext(const char* filePath) const {
+AVFormatContext* VideoContainer::createContext(const QString& filePath) const {
 	av_log_set_level(AV_LOG_DEBUG);
 	av_register_all();
 	avdevice_register_all();
 	avcodec_register_all();
 
 	AVFormatContext* context = avformat_alloc_context();
-	if (avformat_open_input(&context, filePath, NULL, NULL) != 0) {
-		std::stringstream errorTextStream;
-		errorTextStream << "Не могу открыть файл: " << filePath;
-		throw std::runtime_error(errorTextStream.str());
+	if (avformat_open_input(&context, filePath.toUtf8().constData(), NULL, NULL) != 0) {
+		QString errorText = "Не могу открыть файл: " + filePath;
+		throw std::runtime_error(errorText.toStdString());
 	}
 	return context;
 }
-int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
+int VideoContainer::findIndexOfFirstVideoStream(const QString& filePath) {
 	if (avformat_find_stream_info(_context, NULL) < 0) {
 		freeContext();
-		std::stringstream errorTextStream;
-		errorTextStream << "Не могу найти медиа-потоки в файле: " << filePath;
-		throw std::runtime_error(errorTextStream.str());
+		QString errorText = "Не могу найти медиа-потоки в файле: " + filePath;
+		throw std::runtime_error(errorText.toStdString());
 	}
 
 	int indexOfVideoStream = -1;
@@ -127,12 +121,10 @@ int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
 	}
 	if (indexOfVideoStream < 0) {
 		freeContext();
-		std::stringstream errorTextStream;
-		errorTextStream << "Не могу найти видео-поток в файле: " << filePath;
-		throw std::runtime_error(errorTextStream.str());
+		QString errorText = "Не могу найти видео-поток в файле: " + filePath;
+		throw std::runtime_error(errorText.toStdString());
 	}
-
-	av_dump_format(_context, 0, filePath, 0);
+	av_dump_format(_context, 0, filePath.toUtf8().constData(), 0);
 	return indexOfVideoStream;
 }
 
