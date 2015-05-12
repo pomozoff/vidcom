@@ -55,11 +55,12 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 }
 
 void MainWindow::finishedCreateVideoContainer(void) {
-	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
-	if (!videoOriginal) {
+	_videoOriginal = _watcherVideoContainer.future().result();
+	if (!_videoOriginal) {
         _ui->statusBar->showMessage("No Video Container created");
 		_ui->originalFileName->setEnabled(true);
 	} else {
+		auto videoOriginal = _videoOriginal;
 		auto lambda = [videoOriginal](void) -> KeyFramesList {
 			auto indexOfVideoStream = videoOriginal->indexOfFirstVideoStream();
 			KeyFramesList keyFrames;
