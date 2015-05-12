@@ -52,7 +52,7 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
     while (av_read_frame(_context, &packet) >= 0) {
         /*
         if (av_read_frame(_context, &packet) < 0) {
-            qDebug() << "Error packet reading, dts: " << packet.dts;
+			qDebug() << "Error packet reading, dts:" << packet.dts;
             continue;
         }
         */
@@ -65,12 +65,12 @@ KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) cons
 		auto bytesDecoded = avcodec_decode_video2(codecContext, frame, &gotPicture, &packet);
 
 		if (bytesDecoded < 0 || !gotPicture) {
-            qDebug() << "Error packet decoding, dts: " << packet.dts;
+			qDebug() << "Error packet decoding, dts:" << packet.dts;
 			av_frame_unref(frame);
 			av_free_packet(&packet);
 			continue;
 		}
-        qDebug() << "Frame successfully decoded, dts: " << packet.dts;
+		qDebug() << "Frame successfully decoded, dts:" << packet.dts;
 		av_frame_unref(frame);
 		av_free_packet(&packet);
 		//keyFrames.push_back(packet.dts);

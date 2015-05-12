@@ -46,7 +46,7 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 		try {
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
 		} catch (std::runtime_error error) {
-            qDebug() << "Failed to create Video Container" << endl << error.what();
+			qDebug() << "Failed to create Video Container" << endl << error.what();
 		}
 		return videoOriginal;
 	};
