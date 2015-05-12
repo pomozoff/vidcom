@@ -66,7 +66,8 @@ const KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream
 		qDebug() << "Frame successfully decoded, dts:" << packet.dts;
 		av_frame_unref(frame);
 		av_free_packet(&packet);
-		//keyFrames.push_back(packet.dts);
+
+		keyFrames.push_back(packet.dts);
 	}
 	av_frame_free(&frame);
 
