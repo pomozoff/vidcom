@@ -5,12 +5,14 @@
 #include <QFileDialog>
 #include <QFuture>
 #include <QtConcurrent>
+#include <QGraphicsScene>
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 	, _ui(new Ui::MainWindow)
 {
 	_ui->setupUi(this);
+	_ui->originalGraphicsView->setScene(new QGraphicsScene());
 
 	connect(&_watcherVideoContainer, SIGNAL(finished()), this, SLOT(finishedCreateVideoContainer()));
 	connect(&_watcherKeyFramesList, SIGNAL(finished()), this, SLOT(finishedFindKeyFrames()));
