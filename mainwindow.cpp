@@ -60,7 +60,7 @@ void MainWindow::finishedCreateVideoContainer(void) {
         _ui->statusBar->showMessage("No Video Container created");
 		_ui->originalFileName->setEnabled(true);
 	} else {
-		auto lambda = [&videoOriginal](void) -> KeyFramesList {
+		auto lambda = [videoOriginal](void) -> KeyFramesList {
 			auto indexOfVideoStream = videoOriginal->indexOfFirstVideoStream();
 			KeyFramesList keyFrames;
 			try {
