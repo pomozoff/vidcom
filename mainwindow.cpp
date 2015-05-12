@@ -37,13 +37,11 @@ void MainWindow::on_originalFileName_editingFinished() {
 }
 
 void MainWindow::processSelectedFile(const QString& fileName) {
-    qDebug() << "Processing file: " << fileName;
 	_ui->originalFileName->setEnabled(false);
 	auto lambda = [fileName](void) -> VideoContainerPtr {
-        qDebug() << "Creating Video Container ...";
 		const auto byteArray = fileName.toUtf8();
 		const char* cFileName = byteArray.constData();
-        qDebug() << "File path: " << cFileName;
+
 		VideoContainerPtr videoOriginal = NULL;
 		try {
 			videoOriginal = std::make_shared<VideoContainer>(cFileName);
@@ -57,7 +55,6 @@ void MainWindow::processSelectedFile(const QString& fileName) {
 }
 
 void MainWindow::finishedCreateVideoContainer(void) {
-    qDebug() << "VideoContainer finished his job";
 	VideoContainerPtr videoOriginal = _watcherVideoContainer.future().result();
 	if (!videoOriginal) {
         _ui->statusBar->showMessage("No Video Container created");
@@ -78,9 +75,7 @@ void MainWindow::finishedCreateVideoContainer(void) {
 	}
 }
 void MainWindow::finishedFindKeyFrames(void) {
-    qDebug() << "KeyFramesList finished his job";
 	KeyFramesList keyFramesList = _watcherKeyFramesList.future().result();
-    qDebug() << "Keyframes number: " << keyFramesList.size();
 	_ui->originalFileName->setEnabled(true);
 void MainWindow::deleteScene(QGraphicsView* graphicsView) const {
 	auto scene = graphicsView->scene();

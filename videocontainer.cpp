@@ -18,8 +18,6 @@ VideoContainer::~VideoContainer() {
 }
 
 KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream) const {
-    qDebug() << "Reading file: " << _filePath.c_str() << ", video stream index: " << indexOfVideoStream;
-
 	auto codecContextOriginal = _context->streams[indexOfVideoStream]->codec;
 
 	auto videoCodec = avcodec_find_decoder(codecContextOriginal->codec_id);
@@ -135,8 +133,6 @@ int VideoContainer::findIndexOfFirstVideoStream(const char* filePath) {
 	}
 
 	av_dump_format(_context, 0, filePath, 0);
-    qDebug() << "Video stream found, index: " << indexOfVideoStream;
-
 	return indexOfVideoStream;
 }
 
