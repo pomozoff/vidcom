@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFutureWatcher>
+#include <QGraphicsView>
 
 #include "videocontainer.h"
 
@@ -32,6 +33,7 @@ class MainWindow : public QMainWindow {
 	VideoContainerPtr _videoStream;
 
 	void processSelectedFile(const QString& fileName);
+	void deleteScene(QGraphicsView* graphicsView) const;
 };
 
 #endif // MAINWINDOW_H

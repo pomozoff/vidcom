@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 MainWindow::~MainWindow() {
+	deleteScene(_ui->originalGraphicsView);
 	delete _ui;
 }
 
@@ -81,4 +82,10 @@ void MainWindow::finishedFindKeyFrames(void) {
 	KeyFramesList keyFramesList = _watcherKeyFramesList.future().result();
     qDebug() << "Keyframes number: " << keyFramesList.size();
 	_ui->originalFileName->setEnabled(true);
+void MainWindow::deleteScene(QGraphicsView* graphicsView) const {
+	auto scene = graphicsView->scene();
+	if (scene) {
+		delete scene;
+	}
+}
 }
