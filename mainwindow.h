@@ -34,6 +34,8 @@ class MainWindow : public QMainWindow {
 
 	void processSelectedFile(const QString& fileName);
 	void deleteScene(QGraphicsView* graphicsView) const;
+
+	void initOriginal(const KeyFramesList& keyFramesList) const;
 };
 
 #endif // MAINWINDOW_H
