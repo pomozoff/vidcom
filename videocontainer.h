@@ -1,6 +1,7 @@
 ﻿#ifndef VIDEOCONTAINER_H
 #define VIDEOCONTAINER_H
 
+#include <QImage>
 #include <memory>
 #include <string>
 #include <vector>
@@ -25,6 +26,7 @@ class VideoContainer {
 	const KeyFramesList listOfKeyFrames(const int indexOfVideoStream) const;
 	int indexOfFirstVideoStream(void) const;
 
+	const QImage firstKeyFrameImage(void) const;
   private:
 	const QString _filePath;
 	AVFormatContext* _context = NULL;

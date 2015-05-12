@@ -79,6 +79,9 @@ const KeyFramesList VideoContainer::listOfKeyFrames(const int indexOfVideoStream
 int VideoContainer::indexOfFirstVideoStream(void) const {
 	return _indexOfVideoStream;
 }
+const QImage VideoContainer::firstKeyFrameImage(void) const {
+	return QImage("/Users/apomozov/Pictures/IMG_0140.JPG");
+}
 
 void VideoContainer::freeContext(void) {
 	if (_context) {
