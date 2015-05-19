@@ -78,7 +78,11 @@ void MainWindow::finishedCreateVideoContainer(void) {
 void MainWindow::finishedFindKeyFrames(void) {
 	_ui->originalFileName->setEnabled(true);
 	auto keyFramesList = _watcherKeyFramesList.future().result();
-	initOriginal(keyFramesList);
+	try {
+		initOriginal(keyFramesList);
+	} catch (std::runtime_error error) {
+		qDebug() << "Error initializing original" << endl << error.what();
+	}
 }
 void MainWindow::deleteScene(QGraphicsView* graphicsView) const {
 	auto scene = graphicsView->scene();
@@ -89,8 +93,9 @@ void MainWindow::deleteScene(QGraphicsView* graphicsView) const {
 void MainWindow::initOriginal(const KeyFramesList& keyFramesList) const {
 	_ui->originalSlider->setMaximum(keyFramesList.size() - 1);
 
-	auto image = _videoOriginal->firstKeyFrameImage();
 	auto scene = _ui->originalGraphicsView->scene();
 	scene->clear();
+
+	auto image = _videoOriginal->firstKeyFrameImage();
 	scene->addPixmap(QPixmap::fromImage(image));
 }
