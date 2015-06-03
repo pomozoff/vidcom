@@ -17,25 +17,31 @@ class MainWindow : public QMainWindow {
   public:
 	explicit MainWindow(QWidget* parent = 0);
 	~MainWindow();
+
   private slots:
 	void on_originalSelect_released();
 	void on_originalFileName_editingFinished();
+	void on_originalSlider_valueChanged(int value);
 
 	void finishedCreateVideoContainer(void);
-	void finishedFindKeyFrames(void);
-  private:
+	void receivedThumbnail(void);
+
+	void on_originalSlider_sliderReleased();
+
+	private:
 	Ui::MainWindow* _ui;
 
 	QFutureWatcher<VideoContainerPtr> _watcherVideoContainer;
-	QFutureWatcher<KeyFramesList> _watcherKeyFramesList;
+	QFutureWatcher<QImagePtr> _watcherThumbnail;
 
 	VideoContainerPtr _videoOriginal;
 	VideoContainerPtr _videoStream;
 
+	void setEnabledOriginal(const bool value) const;
 	void processSelectedFile(const QString& fileName);
-	void deleteScene(QGraphicsView* graphicsView) const;
 
-	void initOriginal(const KeyFramesList& keyFramesList) const;
+	const QString milliSecondsToText(const int64_t seconds) const;
+	void updatePixmap(int64_t& position);
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

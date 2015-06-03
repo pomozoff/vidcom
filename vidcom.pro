@@ -15,10 +15,12 @@ TEMPLATE  = app
 
 SOURCES  += main.cpp\
             mainwindow.cpp \
-            videocontainer.cpp
+            videocontainer.cpp \
+    qslidertwo.cpp
 
 HEADERS  += mainwindow.h \
-            videocontainer.h
+            videocontainer.h \
+    qslidertwo.h
 
 FORMS    += mainwindow.ui
 

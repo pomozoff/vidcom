@@ -83,18 +83,18 @@
      <rect>
       <x>10</x>
       <y>370</y>
-      <width>50</width>
+      <width>61</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Начало:</string>
+     <string>Позиция:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>270</x>
       <y>370</y>
       <width>50</width>
       <height>22</height>
@@ -104,32 +104,32 @@
      <string>Конец:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="originalStart">
+   <widget class="QLineEdit" name="originalPosition">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>80</x>
       <y>370</y>
-      <width>50</width>
+      <width>100</width>
       <height>22</height>
      </rect>
     </property>
     <property name="inputMask">
-     <string>99:99</string>
+     <string/>
     </property>
     <property name="text">
-     <string>00:00</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="readOnly">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QToolButton" name="originalSetStart">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>190</x>
       <y>370</y>
       <width>30</width>
       <height>22</height>
@@ -155,23 +155,23 @@
    <widget class="QLineEdit" name="originalEnd">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>320</x>
       <y>370</y>
-      <width>50</width>
+      <width>100</width>
       <height>22</height>
      </rect>
     </property>
     <property name="inputMask">
-     <string>99:99</string>
+     <string/>
     </property>
     <property name="text">
-     <string>00:00</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="readOnly">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QOpenGLWidget" name="openGLWidget">
